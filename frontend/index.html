@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Food Nutrition Analyzer</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-left">
+      <h1>🍽️ NutriScan AI</h1>
+      <p class="subtitle">Food Recognition & Nutrition Analysis</p>
+    </div>
+    <div class="header-right">
+      <div class="daily-summary">
+        <span>Today: <strong id="dailyCalories">0</strong> kcal</span>
+        <span>Goal: <strong>2000</strong> kcal</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main layout -->
+  <div class="main">
+
+    <!-- Left panel: Upload + Results -->
+    <div class="left-panel">
+
+      <!-- Upload section -->
+      <div class="upload-section">
+        <div class="upload-box" id="uploadBox" onclick="document.getElementById('fileInput').click()">
+          <div class="upload-icon">📸</div>
+          <p>Click to upload food photo</p>
+          <p class="upload-hint">or drag and drop</p>
+          <input type="file" id="fileInput" accept="image/*" hidden onchange="handleFileUpload(event)"/>
+        </div>
+
+        <!-- Preview -->
+        <div class="preview-box hidden" id="previewBox">
+          <img id="foodPreview" src="" alt="Food preview"/>
+          <button class="analyze-btn" id="analyzeBtn" onclick="analyzeFood()">
+            🔍 Analyze Food
+          </button>
+          <button class="clear-btn" onclick="clearImage()">✕ Clear</button>
+        </div>
+      </div>
+
+      <!-- Loading -->
+      <div class="loading hidden" id="loading">
+        <div class="spinner"></div>
+        <p>🤖 AI is analyzing your food...</p>
+        <p class="loading-sub">Identifying ingredients and calculating nutrition...</p>
+      </div>
+
+      <!-- Results -->
+      <div class="results hidden" id="results">
+
+        <!-- Meal info -->
+        <div class="meal-info" id="mealInfo"></div>
+
+        <!-- Foods detected -->
+        <div class="section">
+          <h3>🥗 Foods Detected</h3>
+          <div id="foodsList"></div>
+        </div>
+
+        <!-- Total nutrition -->
+        <div class="section">
+          <h3>📊 Total Nutrition</h3>
+          <div class="nutrition-grid" id="nutritionGrid"></div>
+        </div>
+
+        <!-- Recommendations -->
+        <div class="section">
+          <h3>💡 AI Recommendations</h3>
+          <div id="recommendationsList"></div>
+        </div>
+
+        <!-- Add to meal log button -->
+        <button class="add-log-btn" onclick="addToMealLog()">
+          ➕ Add to Meal Log
+        </button>
+
+      </div>
+
+    </div>
+
+    <!-- Right panel: Charts + Meal Log -->
+    <div class="right-panel">
+
+      <!-- Macro chart -->
+      <div class="chart-section">
+        <h3>🥧 Macronutrient Breakdown</h3>
+        <div class="chart-box">
+          <canvas id="macroChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Daily progress -->
+      <div class="progress-section">
+        <h3>🎯 Daily Goals</h3>
+        <div class="progress-item">
+          <div class="progress-label">
+            <span>Calories</span>
+            <span id="calProgress">0 / 2000 kcal</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill calories" id="calBar" style="width:0%"></div>
+          </div>
+        </div>
+        <div class="progress-item">
+          <div class="progress-label">
+            <span>Protein</span>
+            <span id="protProgress">0 / 50g</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill protein" id="protBar" style="width:0%"></div>
+          </div>
+        </div>
+        <div class="progress-item">
+          <div class="progress-label">
+            <span>Carbs</span>
+            <span id="carbProgress">0 / 250g</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill carbs" id="carbBar" style="width:0%"></div>
+          </div>
+        </div>
+        <div class="progress-item">
+          <div class="progress-label">
+            <span>Fat</span>
+            <span id="fatProgress">0 / 65g</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill fat" id="fatBar" style="width:0%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Meal log -->
+      <div class="log-section">
+        <div class="log-header">
+          <h3>📅 Today's Meal Log</h3>
+          <button class="clear-log-btn" onclick="clearMealLog()">Clear</button>
+        </div>
+        <div id="mealLog">
+          <p class="empty">No meals logged yet. Analyze a food photo to start!</p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
